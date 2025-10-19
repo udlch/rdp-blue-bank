@@ -16,6 +16,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # --- Шаг для скачивания приватного файла ---
+      - name: Download private zip archive
+        uses: actions/checkout@v3
+        with:
+          # Указываем приватный репозиторий в формате ВЛАДЕЛЕЦ/РЕПОЗИТОРИЙ
+          repository: udlch/rdp-assets
+          # Используем токен, сохраненный в секретах
+          token: ${{ secrets.A_TOKEN }}
+          # Указываем путь, куда будет скачан репозиторий
+          path: ./private-assets
+
+      # Копируем zip-файл в корневую директорию сборки
+      - name: Move private file to build context
+        run: mv ./private-assets/astra1.7.zip .
+
+      # --- Стандартные шаги сборки ---
       - name: Log in to the GitHub Container Registry
         uses: docker/login-action@v2
         with:
