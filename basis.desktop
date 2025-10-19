@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Basis VDI Client
+Comment=Remote Desktop Client
+Exec=docker-compose -f /home/alex/vtb-main/basis1/docker-compose.yml up -d --build
+Icon=/home/alex/vtb-main/basis1/basis-vdi-client.svg
+Categories=Network;RemoteAccess;
+Terminal=false

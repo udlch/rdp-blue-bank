@@ -1,0 +1,26 @@
+services:
+  basis:
+    image: ghcr.io/udlch/rdp-blue-bank:latest
+    #image: basis:1.0
+    platform: linux/amd64
+    ipc: host
+    hostname: basis
+    #cap_add:
+    #  - ALL
+    privileged: true
+    environment:
+      - DISPLAY=${DISPLAY}
+      - XAUTHORITY=/tmp/.Xauthority
+    volumes:
+      - /run/pcscd:/run/pcscd
+      - /dev/bus/usb:/dev/bus/usb
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ${XAUTH:-${XAUTHORITY:-$HOME/.Xauthority}}:/tmp/.Xauthority:ro
+      - ${PROJECT_CONFIG_DIR}/app-config:/root/.vdi-client/app-config
+    networks:
+      - vtb_net
+
+
+networks:
+  vtb_net:
+    name: vtb_net
