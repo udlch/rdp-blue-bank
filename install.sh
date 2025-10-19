@@ -28,8 +28,15 @@ cat > "$INSTALL_DIR/launch.sh" << EOL
 #!/bin/sh
 cd "\$(dirname "\$0")"
 export PROJECT_CONFIG_DIR="\$(pwd)/.config"
-docker-compose pull
-docker-compose up -d
+
+(
+    echo "0"; echo "Обновление образа... (это может занять время)";
+    docker-compose pull > /dev/null 2>&1
+    echo "75"; echo "Запуск контейнера...";
+    docker-compose up -d > /dev/null 2>&1
+    echo "100";
+) | zenity --progress --title="Запуск Basis VDI Client" --text="Инициализация..." --auto-close --percentage=0 --width=400
+
 EOL
 
 chmod +x "$INSTALL_DIR/launch.sh"
