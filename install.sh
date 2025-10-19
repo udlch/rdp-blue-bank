@@ -10,18 +10,13 @@ SOURCE_DIR=$(pwd)
 echo "Установка VDI клиента в $INSTALL_DIR..."
 
 # 1. Создаем директорию для установки
-mkdir -p "$INSTALL_DIR"
 mkdir -p "$INSTALL_DIR/.config"
 
-# 2. Копируем необходимые файлы проекта
-cp -r "$SOURCE_DIR/.config/app-config" "$INSTALL_DIR/.config/"
-cp "$SOURCE_DIR/astra1.7.zip" "$INSTALL_DIR/"
-cp "$SOURCE_DIR/basis-vdi-client.svg" "$INSTALL_DIR/"
+# 2. Копируем только те файлы, что нужны для ЗАПУСКА
+# (Dockerfile, entrypoint и т.д. уже внутри Docker-образа)
 cp "$SOURCE_DIR/docker-compose.yml" "$INSTALL_DIR/"
-cp "$SOURCE_DIR/Dockerfile" "$INSTALL_DIR/"
-cp "$SOURCE_DIR/entrypoint.sh" "$INSTALL_DIR/"
-cp "$SOURCE_DIR/readme.md" "$INSTALL_DIR/"
-cp "$SOURCE_DIR/xrdp-run" "$INSTALL_DIR/"
+cp "$SOURCE_DIR/.config/app-config" "$INSTALL_DIR/.config/"
+cp "$SOURCE_DIR/basis-vdi-client.svg" "$INSTALL_DIR/"
 
 # 3. Создаем скрипт для запуска
 cat > "$INSTALL_DIR/launch.sh" << EOL
@@ -58,11 +53,6 @@ EOL
 
 chmod +x "$DESKTOP_FILE_PATH"
 
-# 5. Устанавливаем права на выполнение для entrypoint.sh и xrdp-run
-chmod +x "$INSTALL_DIR/entrypoint.sh"
-chmod +x "$INSTALL_DIR/xrdp-run"
-
 echo ""
 echo "Установка завершена!"
 echo "Ярлык приложения 'Basis VDI Client' добавлен в ваше меню приложений."
-
